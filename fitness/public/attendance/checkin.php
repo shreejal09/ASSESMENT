@@ -294,7 +294,7 @@ document.getElementById('memberSearch').addEventListener('input', function(e) {
     }
     
     memberSearchTimeout = setTimeout(() => {
-        fetch(`../ajax/search-members.php?q=${encodeURIComponent(query)}`, {
+        fetch(`../../ajax/search-members.php?q=${encodeURIComponent(query)}`, {
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
             }

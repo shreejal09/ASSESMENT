@@ -56,7 +56,83 @@ if (is_staff()) {
     </div>
 </div>
 
+<?php if ($progress_history):
+    // Prepare data for Chart.js
+    $dates = [];
+    $weights = [];
+    $body_fats = [];
+
+    // Reverse to show oldest to newest
+    $graph_data = array_reverse($progress_history);
+
+    foreach ($graph_data as $log) {
+        $dates[] = date('M j', strtotime($log['logged_at']));
+        $weights[] = $log['weight_kg'];
+        $body_fats[] = $log['body_fat_percentage'] ?: null;
+    }
+    ?>
+    <div class="content-card">
+        <div class="card-header">
+            <h2><i class="fas fa-chart-line"></i> Progress Graph</h2>
+        </div>
+        <div class="card-body">
+            <canvas id="progressChart" style="max-height: 350px;"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('progressChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: <?php echo json_encode($dates); ?>,
+                datasets: [{
+                    label: 'Weight (kg)',
+                    data: <?php echo json_encode($weights); ?>,
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    yAxisID: 'y'
+                }, {
+                    label: 'Body Fat (%)',
+                    data: <?php echo json_encode($body_fats); ?>,
+                    borderColor: '#ef4444',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    borderWidth: 3,
+                    borderDash: [5, 5],
+                    tension: 0.4,
+                    yAxisID: 'y1'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: { display: true, position: 'top' }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        position: 'left',
+                        title: { display: true, text: 'Weight (kg)' }
+                    },
+                    y1: {
+                        type: 'linear',
+                        position: 'right',
+                        title: { display: true, text: 'Body Fat (%)' },
+                        grid: { drawOnChartArea: false }
+                    }
+                }
+            }
+        });
+    </script>
+<?php endif; ?>
+
 <div class="content-card">
+
     <div class="card-header">
         <h2><i class="fas fa-history"></i> Measurement History</h2>
     </div>

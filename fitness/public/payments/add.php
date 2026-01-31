@@ -19,12 +19,11 @@ $form_data = [
     'notes' => ''
 ];
 
-// Get memberships that might need payment
+// Get all memberships for payment recording
 $stmt = $pdo->query("
-    SELECT ms.id, ms.plan_name, ms.price, m.first_name, m.last_name 
+    SELECT ms.id, ms.plan_name, ms.price, ms.payment_status, m.first_name, m.last_name 
     FROM memberships ms
     JOIN members m ON ms.member_id = m.id
-    WHERE ms.payment_status != 'Paid'
     ORDER BY ms.created_at DESC
 ");
 $memberships = $stmt->fetchAll();
@@ -146,10 +145,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label for="status">Payment Status</label>
                     <select id="status" name="status">
-                        <option value="Completed" <?php echo $form_data['status'] == 'Completed' ? 'selected' : ''; ?>
-                            >Completed</option>
-                        <option value="Pending" <?php echo $form_data['status'] == 'Pending' ? 'selected' : ''; ?>
-                            >Pending</option>
+                        <option value="Completed" <?php echo $form_data['status'] == 'Completed' ? 'selected' : ''; ?>>
+                            Completed</option>
+                        <option value="Pending" <?php echo $form_data['status'] == 'Pending' ? 'selected' : ''; ?>>Pending
+                        </option>
                         <option value="Failed" <?php echo $form_data['status'] == 'Failed' ? 'selected' : ''; ?>>Failed
                         </option>
                     </select>
