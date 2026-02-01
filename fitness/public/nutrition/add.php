@@ -40,6 +40,11 @@ if (is_admin() || is_trainer()) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Verify CSRF Token
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        die('Invalid CSRF Token');
+    }
+
     // Collect and sanitize form data
     $form_data['meal_type'] = $_POST['meal_type'] ?? 'Snack';
     $form_data['food_name'] = trim($_POST['food_name'] ?? '');
@@ -269,6 +274,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             
             <div class="form-actions">
+                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                 <button type="submit" class="btn btn-primary btn-lg">
                     <i class="fas fa-save"></i> Log Meal
                 </button>

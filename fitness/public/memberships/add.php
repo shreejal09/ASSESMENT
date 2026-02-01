@@ -27,6 +27,11 @@ $members_stmt = $pdo->query("SELECT id, first_name, last_name, email FROM member
 $members = $members_stmt->fetchAll();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Verify CSRF Token
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        die('Invalid CSRF Token');
+    }
+
     // Collect and sanitize form data
     $form_data = [
         'member_id' => (int) ($_POST['member_id'] ?? 0),
@@ -203,6 +208,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="form-actions">
+                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                 <button type="submit" class="btn btn-primary btn-lg">
                     <i class="fas fa-save"></i> Save Membership
                 </button>

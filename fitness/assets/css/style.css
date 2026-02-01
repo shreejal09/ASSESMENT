@@ -98,7 +98,9 @@ body {
     color: white;
 }
 
-.logout-btn, .login-btn {
+.logout-btn,
+.login-btn,
+.register-btn {
     color: white;
     text-decoration: none;
     padding: 8px 15px;
@@ -111,8 +113,14 @@ body {
     font-size: 0.9rem;
 }
 
-.logout-btn:hover, .login-btn:hover {
+.logout-btn:hover,
+.login-btn:hover,
+.register-btn:hover {
     background-color: rgba(255, 255, 255, 0.2);
+}
+
+.register-btn {
+    margin-right: 10px;
 }
 
 /* Navigation */
@@ -241,13 +249,33 @@ main {
     color: white;
 }
 
-.stat-icon.admin { background-color: var(--danger-color); }
-.stat-icon.trainer { background-color: var(--warning-color); }
-.stat-icon.member { background-color: var(--success-color); }
-.stat-icon.success { background-color: var(--success-color); }
-.stat-icon.info { background-color: var(--info-color); }
-.stat-icon.warning { background-color: var(--warning-color); }
-.stat-icon.error { background-color: var(--danger-color); }
+.stat-icon.admin {
+    background-color: var(--danger-color);
+}
+
+.stat-icon.trainer {
+    background-color: var(--warning-color);
+}
+
+.stat-icon.member {
+    background-color: var(--success-color);
+}
+
+.stat-icon.success {
+    background-color: var(--success-color);
+}
+
+.stat-icon.info {
+    background-color: var(--info-color);
+}
+
+.stat-icon.warning {
+    background-color: var(--warning-color);
+}
+
+.stat-icon.error {
+    background-color: var(--danger-color);
+}
 
 .stat-info h3 {
     font-size: 1.8rem;
@@ -363,7 +391,8 @@ main {
 }
 
 /* Status Badges */
-.status-badge, .badge {
+.status-badge,
+.badge {
     display: inline-block;
     padding: 4px 10px;
     border-radius: 20px;
@@ -372,27 +401,32 @@ main {
     text-transform: uppercase;
 }
 
-.status-badge.success, .badge.success {
+.status-badge.success,
+.badge.success {
     background-color: #d4edda;
     color: #155724;
 }
 
-.status-badge.warning, .badge.warning {
+.status-badge.warning,
+.badge.warning {
     background-color: #fff3cd;
     color: #856404;
 }
 
-.status-badge.error, .badge.error {
+.status-badge.error,
+.badge.error {
     background-color: #f8d7da;
     color: #721c24;
 }
 
-.status-badge.info, .badge.info {
+.status-badge.info,
+.badge.info {
     background-color: #d1ecf1;
     color: #0c5460;
 }
 
-.status-badge.secondary, .badge.secondary {
+.status-badge.secondary,
+.badge.secondary {
     background-color: #e2e3e5;
     color: #383d41;
 }
@@ -846,8 +880,13 @@ main {
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* Responsive Design */
@@ -857,35 +896,35 @@ main {
         gap: 15px;
         text-align: center;
     }
-    
+
     .nav-menu {
         justify-content: flex-start;
     }
-    
+
     .stats-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .dashboard-row {
         grid-template-columns: 1fr;
     }
-    
+
     .actions-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .form-row {
         grid-template-columns: 1fr;
     }
-    
+
     .form-actions {
         flex-direction: column;
     }
-    
+
     .form-actions .btn {
         width: 100%;
     }
-    
+
     .footer-content {
         flex-direction: column;
         text-align: center;
@@ -896,17 +935,17 @@ main {
     .actions-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .auth-form {
         padding: 20px;
     }
-    
+
     .card-header {
         flex-direction: column;
         gap: 10px;
         align-items: flex-start;
     }
-    
+
     .section-header {
         flex-direction: column;
         gap: 10px;
@@ -953,6 +992,7 @@ main {
 
 /* Print Styles */
 @media print {
+
     .main-header,
     .main-nav,
     .main-footer,
@@ -960,16 +1000,16 @@ main {
     .action-buttons {
         display: none !important;
     }
-    
+
     .container {
         max-width: 100%;
         padding: 0;
     }
-    
+
     body {
         background: white;
     }
-    
+
     .content-card,
     .dashboard-section {
         box-shadow: none;

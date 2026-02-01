@@ -280,20 +280,21 @@ if ($member_id) {
                                 </a>
                             <?php endif; ?>
                             <?php if ($is_assigned && is_member()): ?>
-                                <form method="POST" action="stop-plan.php" style="margin: 0;" onsubmit="return confirm('Are you sure you want to stop this workout plan?');">
+                                <form method="POST" action="stop-plan.php" style="margin: 0;"
+                                    onsubmit="return confirm('Are you sure you want to stop this workout plan?');">
                                     <input type="hidden" name="workout_plan_id" value="<?php echo e($plan['id']); ?>">
                                     <button type="submit" class="btn btn-sm btn-block btn-warning">
                                         <i class="fas fa-stop"></i> Stop This Plan
                                     </button>
                                 </form>
                             <?php elseif (is_member()): ?>
-                                            <form method="POST" action="start-plan.php" style="margin: 0;">
-                                                <input type="hidden" name="workout_plan_id" value="<?php echo e($plan['id']); ?>">
-                                                <button type="submit" class="btn btn-sm btn-block btn-success">
-                                                    <i class="fas fa-play"></i> Start This Plan
-                                                </button>
-                                            </form>
-                                    <?php endif; ?>
+                                <form method="POST" action="start-plan.php" style="margin: 0;">
+                                    <input type="hidden" name="workout_plan_id" value="<?php echo e($plan['id']); ?>">
+                                    <button type="submit" class="btn btn-sm btn-block btn-success">
+                                        <i class="fas fa-play"></i> Start This Plan
+                                    </button>
+                                </form>
+                            <?php endif; ?>
                         </div>
                     </div>
                 <?php endforeach; ?>

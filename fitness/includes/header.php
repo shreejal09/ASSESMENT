@@ -10,7 +10,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($page_title) ? e($page_title) . ' - ' : ''; ?><?php echo e(SITE_NAME); ?></title>
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
@@ -30,6 +30,7 @@ if (session_status() === PHP_SESSION_NONE) {
                         <a href="<?php echo BASE_URL; ?>/public/logout.php" class="logout-btn"><i
                                 class="fas fa-sign-out-alt"></i> Logout</a>
                     <?php else: ?>
+                        <a href="<?php echo BASE_URL; ?>/public/register.php" class="register-btn">Register</a>
                         <a href="<?php echo BASE_URL; ?>/public/login.php" class="login-btn">Login</a>
                     <?php endif; ?>
                 </div>

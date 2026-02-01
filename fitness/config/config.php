@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Base URL configuration
-define('BASE_URL', 'http://localhost/FINALSHI%20copy/fitness');
+define('BASE_URL', 'http://localhost/ASSESMENT/fitness');
 define('SITE_NAME', 'Fitness Club Management');
 
 // Set default timezone

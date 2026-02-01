@@ -1,56 +1,48 @@
 # Fitness Club Management System
+This is a simple but powerful web application I built to help gym owners and staff manage their daily operations. It handles everything from member registrations to tracking workout plans—basically replacing potential piles of paperwork with a clean dashboard.
 
-This is a web application designed to manage a gym or fitness club. It handles member registrations, trainer profiles, attendance logs, and workout plans.
+## What is this?
+I created this project to streamline how a typical fitness club operates. Instead of tracking payments or attendance in spreadsheets (or worse, notebooks), this system keeps it all in one place. It's built with PHP and standard web technologies, so it's lightweight and easy to deploy on any standard hosting environment or local XAMPP setup.
 
-## How to get it running
-1.  Move the project folder into your XAMPP `htdocs` directory.
-2.  Open **phpMyAdmin** and create a database called `fitness_club`.
-3.  Go to the `sql/` folder in this project and import `schema.sql` first, then import `sample-data.sql`.
-4.  Check `config/config.php` to make sure the `BASE_URL` is pointing to the right folder on your localhost.
-5.  Open your browser and go to `http://localhost/fitness/public/index.php`.
+## Features I'm Proud Of
+Here's what the system can do right now:
+- **Dashboard**: A quick-glance view of how the business is doing (active members, monthly revenue, etc.).
+- **Staff Access**: Different logins for Admins and Trainers so everyone sees only what they need to see.
+- **Member Management**: specific profiles for every member, tracking their personal info and membership status.
+- **Attendance**: A manual check-in feature to keep logs of who visited the gym and when.
+- **Workout Planning**: Trainers can create custom workout routines and assign them directly to members.
+- **Nutrition Tracking**: A space for logging meals to help members stay on top of their diet goals.
 
-## Login Information
-You can use these accounts to test the system:
-- **Admin**: username `admin`, password `admin123`
-- **Trainer**: username `trainer_john`, password `trainer123`
-- **Member**: username `john_doe`, password `member123`
+## Getting Started (Local Dev)
+If you want to run this on your machine to test it out, here's the quickest way:
 
-## Main Features
-- **Dashboard**: Shows quick stats for members, trainers, and revenue.
-- **Member Management**: Add, edit, and view member profiles and their membership status.
-- **Attendance**: Manual check-in system for members coming into the gym.
-- **Workouts**: Create workout plans and assign them to specific members.
-- **Nutrition**: Log daily meals and see simple nutrition reports.
-- **Payments**: Track membership payments and revenue.
-- **Profile**: Users can edit their own info or change their passwords.
+1.  **Clone/Download**: Drop this whole folder into your `htdocs` directory (if you're using XAMPP).
+2.  **Database Setup**:
+    - Open up phpMyAdmin and create a new database named `fitness_club`.
+    - Import the files from the `sql/` folder. Start with `schema.sql` to build the tables, then `sample-data.sql` if you want some dummy users to play with.
+3.  **Config**:
+    - Check `config/config.php`.
+    - Make sure `BASE_URL` matches your local folder path (e.g., `http://localhost/ASSESMENT/fitness`).
+4.  **Launch**:
+    - Visit `http://localhost/ASSESMENT/fitness/public/index.php` in your browser.
 
-## Tech Used
-- PHP for logic
-- MySQL for data
-- Standard CSS for the UI
-- FontAwesome for icons
+## Default Logins
+I've set up a few accounts so you don't have to register from scratch while testing:
 
-## File Structure
-- `config/`: Database and site settings
-- `public/`: All the main pages users see
-- `includes/`: Common files like headers, footers, and auth functions
-- `assets/`: Styling and javascript
-- `sql/`: Database export files
-2. `members` - Member profiles
-3. `trainers` - Trainer profiles
-4. `memberships` - Membership plans
-5. `attendance` - Gym check-ins
-6. `workout_plans` - Exercise plans
-8. `progress_logs` - Fitness progress
-9. `payments` - Payment records
+| Role | Username | Password |
+| :--- | :--- | :--- |
+| **Admin** | `admin` | `admin123` |
+| **Trainer** | `trainer_john` | `trainer123` |
+| **Member** | `john_doe` | `member123` |
 
-## Installation
+## Tech Stack
+Nothing too fancy, just reliable tools:
+- **PHP** (Core logic)
+- **MySQL** (Database)
+- **HTML5/CSS3** (Frontend interface)
+- **JavaScript** (Interactivity)
 
-### Requirements
-- PHP 7.4 or higher
-- MySQL 5.7 or higher
-- Web server (Apache/Nginx)
+## Notes
+Feel free to poke around the code in the `public` folder to see how the pages are stitched together, or check `includes/functions.php` for the backend logic.
 
-### Setup Steps
-
-1. **Clone/Download the project**
+Enjoy! 🏋️‍♂️

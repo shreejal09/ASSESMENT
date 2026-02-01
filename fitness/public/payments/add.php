@@ -29,6 +29,11 @@ $stmt = $pdo->query("
 $memberships = $stmt->fetchAll();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Verify CSRF Token
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        die('Invalid CSRF Token');
+    }
+
     $form_data = [
         'membership_id' => (int) ($_POST['membership_id'] ?? 0),
         'amount' => trim($_POST['amount'] ?? ''),
@@ -167,6 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="form-actions">
+                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                 <button type="submit" class="btn btn-primary btn-lg">
                     <i class="fas fa-save"></i> Record Payment
                 </button>

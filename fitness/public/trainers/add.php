@@ -24,6 +24,11 @@ $form_data = [
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Verify CSRF Token
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        die('Invalid CSRF Token');
+    }
+
     // Collect and sanitize form data
     $form_data = [
         'full_name' => trim($_POST['full_name'] ?? ''),
@@ -38,30 +43,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'username' => trim($_POST['username'] ?? ''),
         'password' => $_POST['password'] ?? ''
     ];
-    
+
     // Validation
     if (empty($form_data['full_name'])) {
         $errors[] = 'Full name is required';
     }
-    
+
     if (empty($form_data['email'])) {
         $errors[] = 'Email is required';
     } elseif (!filter_var($form_data['email'], FILTER_VALIDATE_EMAIL)) {
         $errors[] = 'Invalid email format';
     }
-    
+
     if (empty($form_data['username'])) {
         $errors[] = 'Username is required';
     } elseif (strlen($form_data['username']) < 3) {
         $errors[] = 'Username must be at least 3 characters';
     }
-    
+
     if (empty($form_data['password'])) {
         $errors[] = 'Password is required';
     } elseif (strlen($form_data['password']) < 6) {
         $errors[] = 'Password must be at least 6 characters';
     }
-    
+
     // Check if email or username already exists
     if (empty($errors)) {
         $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ? OR username = ?");
@@ -70,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors[] = 'Email or username already exists';
         }
     }
-    
+
     // Check if trainer email already exists
     if (empty($errors)) {
         $stmt = $pdo->prepare("SELECT id FROM trainers WHERE email = ?");
@@ -79,15 +84,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors[] = 'Trainer with this email already exists';
         }
     }
-    
+
     // If no errors, create user and trainer
     if (empty($errors)) {
         $pdo->beginTransaction();
-        
+
         try {
             // Create user account
             $password_hash = password_hash($form_data['password'], PASSWORD_DEFAULT);
-            
+
             $stmt = $pdo->prepare("
                 INSERT INTO users (username, email, password_hash, role, status) 
                 VALUES (?, ?, ?, 'trainer', 'active')
@@ -98,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $password_hash
             ]);
             $user_id = $pdo->lastInsertId();
-            
+
             // Create trainer record
             $stmt = $pdo->prepare("
                 INSERT INTO trainers (
@@ -107,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     availability, bio
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ");
-            
+
             $stmt->execute([
                 $user_id,
                 $form_data['full_name'],
@@ -120,13 +125,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $form_data['availability'],
                 $form_data['bio']
             ]);
-            
+
             $pdo->commit();
-            
+
             $trainer_id = $pdo->lastInsertId();
             $_SESSION['success'] = "Trainer added successfully! Trainer ID: #$trainer_id";
             redirect('index.php');
-            
+
         } catch (Exception $e) {
             $pdo->rollBack();
             $errors[] = 'Failed to add trainer: ' . $e->getMessage();
@@ -159,62 +164,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </ul>
             </div>
         <?php endif; ?>
-        
+
         <form method="POST" action="" class="form-grid">
             <div class="form-section">
                 <h3><i class="fas fa-id-card"></i> Personal Information</h3>
-                
+
                 <div class="form-group">
                     <label for="full_name">Full Name *</label>
-                    <input type="text" id="full_name" name="full_name" 
-                           value="<?php echo e($form_data['full_name']); ?>" required
-                           placeholder="Enter full name">
+                    <input type="text" id="full_name" name="full_name" value="<?php echo e($form_data['full_name']); ?>"
+                        required placeholder="Enter full name">
                 </div>
-                
+
                 <div class="form-row">
                     <div class="form-group">
                         <label for="email">Email Address *</label>
-                        <input type="email" id="email" name="email" 
-                               value="<?php echo e($form_data['email']); ?>" required
-                               placeholder="trainer@example.com">
+                        <input type="email" id="email" name="email" value="<?php echo e($form_data['email']); ?>"
+                            required placeholder="trainer@example.com">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" 
-                               value="<?php echo e($form_data['phone']); ?>"
-                               placeholder="(123) 456-7890">
+                        <input type="tel" id="phone" name="phone" value="<?php echo e($form_data['phone']); ?>"
+                            placeholder="(123) 456-7890">
                     </div>
                 </div>
             </div>
-            
+
             <div class="form-section">
                 <h3><i class="fas fa-graduation-cap"></i> Professional Information</h3>
-                
+
                 <div class="form-row">
                     <div class="form-group">
                         <label for="specialization">Specialization</label>
-                        <input type="text" id="specialization" name="specialization" 
-                               value="<?php echo e($form_data['specialization']); ?>"
-                               placeholder="e.g., Strength Training, Yoga, etc.">
+                        <input type="text" id="specialization" name="specialization"
+                            value="<?php echo e($form_data['specialization']); ?>"
+                            placeholder="e.g., Strength Training, Yoga, etc.">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="experience_years">Experience (Years)</label>
-                        <input type="number" id="experience_years" name="experience_years" 
-                               value="<?php echo e($form_data['experience_years']); ?>" min="0" max="50"
-                               placeholder="Number of years">
+                        <input type="number" id="experience_years" name="experience_years"
+                            value="<?php echo e($form_data['experience_years']); ?>" min="0" max="50"
+                            placeholder="Number of years">
                     </div>
                 </div>
-                
+
                 <div class="form-row">
                     <div class="form-group">
                         <label for="hourly_rate">Hourly Rate ($)</label>
-                        <input type="number" id="hourly_rate" name="hourly_rate" 
-                               value="<?php echo e($form_data['hourly_rate']); ?>" step="0.01" min="0"
-                               placeholder="e.g., 50.00">
+                        <input type="number" id="hourly_rate" name="hourly_rate"
+                            value="<?php echo e($form_data['hourly_rate']); ?>" step="0.01" min="0"
+                            placeholder="e.g., 50.00">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="availability">Availability</label>
                         <select id="availability" name="availability">
@@ -224,41 +226,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </select>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="certification">Certifications</label>
                     <textarea id="certification" name="certification" rows="3"
-                              placeholder="List certifications (separate with commas)"><?php echo e($form_data['certification']); ?></textarea>
+                        placeholder="List certifications (separate with commas)"><?php echo e($form_data['certification']); ?></textarea>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="bio">Bio/Description</label>
                     <textarea id="bio" name="bio" rows="4"
-                              placeholder="Tell us about your training philosophy, achievements, etc."><?php echo e($form_data['bio']); ?></textarea>
+                        placeholder="Tell us about your training philosophy, achievements, etc."><?php echo e($form_data['bio']); ?></textarea>
                 </div>
             </div>
-            
+
             <div class="form-section">
                 <h3><i class="fas fa-user-lock"></i> Account Information</h3>
-                
+
                 <div class="form-row">
                     <div class="form-group">
                         <label for="username">Username *</label>
-                        <input type="text" id="username" name="username" 
-                               value="<?php echo e($form_data['username']); ?>" required
-                               placeholder="Choose a username">
+                        <input type="text" id="username" name="username"
+                            value="<?php echo e($form_data['username']); ?>" required placeholder="Choose a username">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="password">Password *</label>
-                        <input type="password" id="password" name="password" 
-                               value="<?php echo e($form_data['password']); ?>" required
-                               placeholder="At least 6 characters">
+                        <input type="password" id="password" name="password"
+                            value="<?php echo e($form_data['password']); ?>" required
+                            placeholder="At least 6 characters">
                     </div>
                 </div>
             </div>
-            
+
             <div class="form-actions">
+                <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                 <button type="submit" class="btn btn-primary btn-lg">
                     <i class="fas fa-save"></i> Add Trainer
                 </button>
