@@ -49,4 +49,4 @@ Nothing too fancy, just reliable tools:
 ## Notes
 Feel free to poke around the code in the `public` folder to see how the pages are stitched together, or check `includes/functions.php` for the backend logic.
 
-Enjoy! 🏋️‍♂️
+Enjoy!
