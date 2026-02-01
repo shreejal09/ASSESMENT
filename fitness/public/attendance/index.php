@@ -116,17 +116,19 @@ $trainers = $trainers_stmt->fetchAll();
                         max="<?php echo date('Y-m-d'); ?>">
                 </div>
 
-                <div class="form-group">
-                    <label for="member_id"><i class="fas fa-user"></i> Member</label>
-                    <select id="member_id" name="member_id">
-                        <option value="">All Members</option>
-                        <?php foreach ($members as $member): ?>
-                            <option value="<?php echo e($member['id']); ?>" <?php echo $member_filter == $member['id'] ? 'selected' : ''; ?>>
-                                <?php echo e($member['name']); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
+                <?php if (is_staff()): ?>
+                    <div class="form-group">
+                        <label for="member_id"><i class="fas fa-user"></i> Member</label>
+                        <select id="member_id" name="member_id">
+                            <option value="">All Members</option>
+                            <?php foreach ($members as $member): ?>
+                                <option value="<?php echo e($member['id']); ?>" <?php echo $member_filter == $member['id'] ? 'selected' : ''; ?>>
+                                    <?php echo e($member['name']); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                <?php endif; ?>
 
                 <?php if (is_admin()): ?>
                     <div class="form-group">

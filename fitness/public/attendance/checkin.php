@@ -234,9 +234,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </select>
                 </div>
                 
-                <?php if (is_admin()): ?>
                 <div class="form-group">
-                    <label for="trainer_id">Assign Trainer (Optional)</label>
+                    <label for="trainer_id">Choose Trainer (Optional)</label>
                     <select id="trainer_id" name="trainer_id">
                         <option value="">-- No Trainer --</option>
                         <?php foreach ($trainers as $trainer): ?>
@@ -247,7 +246,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <?php endif; ?>
                 
                 <div class="form-group">
                     <label for="notes">Notes (Optional)</label>
