@@ -1,9 +1,9 @@
 <?php
 // Database configuration
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'fitness_club');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_NAME', 'np03cy4a240041');
+define('DB_USER', 'np03cy4a240041');
+define('DB_PASS', 'mp9smWnq3o');
 
 // Create PDO connection
 try {

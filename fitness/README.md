@@ -13,18 +13,22 @@ Here's what the system can do right now:
 - **Workout Planning**: Trainers can create custom workout routines and assign them directly to members.
 - **Nutrition Tracking**: A space for logging meals to help members stay on top of their diet goals.
 
-## Getting Started (Local Dev)
-If you want to run this on your machine to test it out, here's the quickest way:
+## Live Demo
+**Access the live application here:**
+[https://student.heraldcollege.edu.np/~np03cy4a240041/ASSESMENT/fitness/public/login.php]
 
-1.  **Clone/Download**: Drop this whole folder into your `htdocs` directory (if you're using XAMPP).
+## Getting Started (Local Dev)
+If you want to run this locally on your machine:
+
+1.  **Clone/Download**: Drop this folder into your `htdocs` directory (for XAMPP).
 2.  **Database Setup**:
-    - Open up phpMyAdmin and create a new database named `fitness_club`.
-    - Import the files from the `sql/` folder. Start with `schema.sql` to build the tables, then `sample-data.sql` if you want some dummy users to play with.
+    - Create a database in phpMyAdmin (e.g., `fitness_club`).
+    - Import `sql/schema.sql` first, then `sql/sample-data.sql`.
+    - **Important**: Update `config/db.php` with your database name, username, and password.
 3.  **Config**:
-    - Check `config/config.php`.
-    - Make sure `BASE_URL` matches your local folder path (e.g., `http://localhost/ASSESMENT/fitness`).
+    - Update `config/config.php`: Set `BASE_URL` to your local path (e.g., `http://localhost/ASSESMENT/fitness`).
 4.  **Launch**:
-    - Visit `http://localhost/ASSESMENT/fitness/public/index.php` in your browser.
+    - Visit the `public/index.php` page in your browser.
 
 ## Default Logins
 I've set up a few accounts so you don't have to register from scratch while testing:
