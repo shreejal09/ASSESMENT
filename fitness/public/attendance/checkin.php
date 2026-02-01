@@ -189,7 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="member_id">Member *</label>
                     <?php if ($is_member_user): ?>
                         <input type="text" value="<?php echo e($_SESSION['user_name']); ?>" disabled class="disabled-input">
-                        <input type="hidden" name="member_id" value="<?php echo e($current_member_id); ?>">
+                        <input type="hidden" id="member_id" name="member_id" value="<?php echo e($current_member_id); ?>">
                     <?php else: ?>
                         <select id="member_id" name="member_id" required 
                                 onchange="validateMember(this.value)">
@@ -263,7 +263,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <button type="button" class="btn btn-secondary" onclick="validateBeforeSubmit()">
                     <i class="fas fa-search"></i> Validate Membership
                 </button>
-                <a href="index.php" class="btn btn-outline">Cancel</a>
+                <a href="../dashboard.php" class="btn btn-outline">Cancel</a>
             </div>
         </form>
     </div>
@@ -354,7 +354,7 @@ function validateMember(memberId) {
     
     validationDiv.innerHTML = '<div class="ajax-loading"></div> Validating...';
     
-    fetch(`../ajax/validate-membership.php`, {
+    fetch(`../../ajax/validate-membership.php`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',

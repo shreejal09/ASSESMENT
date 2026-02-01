@@ -3,7 +3,7 @@ require_once '../../includes/auth.php';
 require_once '../../config/config.php';
 require_once '../../includes/functions.php';
 
-require_staff(); // Admin or trainer can view attendance
+require_login(); // Members can view their own attendance
 
 $page_title = 'Attendance Records';
 include '../../includes/header.php';
@@ -41,6 +41,15 @@ if (!empty($trainer_filter)) {
 if (is_trainer() && isset($_SESSION['trainer_id'])) {
     $where_clauses[] = "a.trainer_id = ?";
     $params[] = $_SESSION['trainer_id'];
+}
+
+// If member is viewing, only show their own attendance
+if (!is_staff()) {
+    $member_id = get_member_id();
+    if ($member_id) {
+        $where_clauses[] = "a.member_id = ?";
+        $params[] = $member_id;
+    }
 }
 
 $where_sql = empty($where_clauses) ? '' : 'WHERE ' . implode(' AND ', $where_clauses);
